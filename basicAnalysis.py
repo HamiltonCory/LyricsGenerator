@@ -2,6 +2,7 @@ import nltk
 from nltk.corpus import PlaintextCorpusReader
 from nltk import FreqDist
 import os
+import collections
 from numpy.core.defchararray import isalpha
 
 
@@ -9,6 +10,8 @@ corpus_location='C:\\Users\\Jeff\\git\\LyricsYo\\runDataset'
 print(corpus_location)
 testCorpus = PlaintextCorpusReader(corpus_location, '.*')
 words = testCorpus.words()
+counts = collections.Counter(words)
+print (counts)
 fdist = FreqDist(words)
 vocab = fdist.keys()
 a = [w for w in words if isalpha]
@@ -66,5 +69,5 @@ for w in a:
     num = l[len(w)]
     num = num + 1
     l[len(w)] = num
-    if len(w) > 8:
+    if len(w) > 12:
         print(w)
