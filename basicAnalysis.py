@@ -11,7 +11,7 @@ print(corpus_location)
 testCorpus = PlaintextCorpusReader(corpus_location, '.*')
 words = testCorpus.words()
 counts = collections.Counter(words)
-print (counts)
+# print (counts)
 fdist = FreqDist(words)
 vocab = fdist.keys()
 a = [w for w in words if isalpha]
@@ -71,3 +71,48 @@ for w in a:
     l[len(w)] = num
     if len(w) > 12:
         print(w)
+
+# print(nltk.pos_tag(words))
+partsOfSpeech = nltk.pos_tag(words)
+print (partsOfSpeech[1])
+posDict = {}
+for tag in partsOfSpeech:
+    pos = tag[1]
+    word = tag[0]
+    if pos in posDict:
+        wordCountDict = posDict[pos]
+        if word in wordCountDict:
+            # print ("Got here, count is: " + str(wordCountDict[word]) + " incrementing...");
+            wordCountDict[word] = wordCountDict[word] + 1
+        else:
+            wordCountDict[word] = 1;
+    else:
+        posDict[pos] = {}
+        posDict[pos][word] = 1;
+
+print(posDict)
+def getMostFrequentWordInPOS(pos):
+    if pos in posDict:
+        maxOccur = 0;
+        maxWord = "";
+        for word in posDict[pos]:
+            if(posDict[pos][word] > maxOccur):
+                maxOccur = posDict[pos][word]
+                maxWord = word
+        posDict[pos][maxWord] = 0
+    return maxWord
+# print(len(posDict.keys())) 40 parts of speech
+
+
+corpus_location2='C:\\Users\\Jeff\\git\\LyricsYo\\songLyric'
+print(corpus_location)
+lyricCorpus = PlaintextCorpusReader(corpus_location2, '.*')
+words2 = lyricCorpus.words()
+partsOfSpeech = nltk.pos_tag(words2)
+newLyrics = ""
+for w in partsOfSpeech:
+    nextWord = getMostFrequentWordInPOS(w[1])
+    if nextWord == "t":
+        print(w)
+    newLyrics = newLyrics + " " + nextWord
+print (newLyrics)
