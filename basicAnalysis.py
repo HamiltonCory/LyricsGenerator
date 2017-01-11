@@ -4,12 +4,16 @@ from nltk import FreqDist
 import os
 import collections
 from numpy.core.defchararray import isalpha
+from nltk.tokenize import WhitespaceTokenizer
+from nltk import word_tokenize
 
 
 corpus_location='C:\\Users\\Jeff\\git\\LyricsYo\\runDataset'
 print(corpus_location)
 testCorpus = PlaintextCorpusReader(corpus_location, '.*')
-words = testCorpus.words()
+words = word_tokenize(testCorpus.raw())
+# words = WhitespaceTokenizer().tokenize(testCorpus.raw())
+# words = testCorpus.words()
 counts = collections.Counter(words)
 # print (counts)
 fdist = FreqDist(words)
@@ -92,9 +96,9 @@ for tag in partsOfSpeech:
 
 print(posDict)
 def getMostFrequentWordInPOS(pos):
+    maxWord = "";
     if pos in posDict:
         maxOccur = 0;
-        maxWord = "";
         for word in posDict[pos]:
             if(posDict[pos][word] > maxOccur):
                 maxOccur = posDict[pos][word]
@@ -107,7 +111,7 @@ def getMostFrequentWordInPOS(pos):
 corpus_location2='C:\\Users\\Jeff\\git\\LyricsYo\\songLyric'
 print(corpus_location)
 lyricCorpus = PlaintextCorpusReader(corpus_location2, '.*')
-words2 = lyricCorpus.words()
+words2 = WhitespaceTokenizer().tokenize(lyricCorpus.raw())
 partsOfSpeech = nltk.pos_tag(words2)
 newLyrics = ""
 for w in partsOfSpeech:
