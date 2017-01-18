@@ -1,8 +1,8 @@
 import random
 
 # Generate tokens
-# Tuple
-def getMostFrequentWordInPOS(input):
+# Inputs Tuple
+def getRandomWord(input):
     print ("Starting lottery")
     numTotal = 0
     for tuple in input:

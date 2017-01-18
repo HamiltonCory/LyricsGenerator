@@ -1,7 +1,9 @@
 import nltk
+from random import randint
 from nltk.corpus import PlaintextCorpusReader
 from nltk import FreqDist
 import os
+import pickle
 import collections
 from numpy.core.defchararray import isalpha
 from nltk.tokenize import WhitespaceTokenizer
@@ -11,8 +13,9 @@ from nltk import word_tokenize
 corpus_location='C:\\Users\\Jeff\\git\\LyricsYo\\runDataset'
 print(corpus_location)
 testCorpus = PlaintextCorpusReader(corpus_location, '.*')
-words = word_tokenize(testCorpus.raw())
+# words = word_tokenize(testCorpus.raw())
 # words = WhitespaceTokenizer().tokenize(testCorpus.raw())
+words = WhitespaceTokenizer().tokenize(testCorpus.raw().lower())
 # words = testCorpus.words()
 counts = collections.Counter(words)
 # print (counts)
@@ -39,11 +42,11 @@ for w in a:
     if 'love' in w:
         n5 = n5 + 1
 
-print(n1)
-print(n2)
-print(n3)
-print(n4)
-print(n5)
+# print(n1)
+# print(n2)
+# print(n3)
+# print(n4)
+# print(n5)
 
 n1 = n1/len(a)
 n2 = n2/len(a)
@@ -51,11 +54,11 @@ n3 = n3/len(a)
 n4 = n4/len(a)
 n5 = n5/len(a)
 
-print(n1)
-print(n2)
-print(n3)
-print(n4)
-print(n5)
+# print(n1)
+# print(n2)
+# print(n3)
+# print(n4)
+# print(n5)
 
 word = [w for w in fdist.keys() if isalpha]
 fdist2 = FreqDist([len(w) for w in a])
@@ -68,17 +71,17 @@ longest_len = max([len(w) for w in a]) + 1
 l = [0] * longest_len
 print (longest_len)
 
-#Prints words over length 10
-for w in a:
-    num = l[len(w)]
-    num = num + 1
-    l[len(w)] = num
-    if len(w) > 12:
-        print(w)
+# #Prints words over length 10
+# for w in a:
+#     num = l[len(w)]
+#     num = num + 1
+#     l[len(w)] = num
+#     if len(w) > 12:
+#         print(w)
 
 # print(nltk.pos_tag(words))
 partsOfSpeech = nltk.pos_tag(words)
-print (partsOfSpeech[1])
+#print (partsOfSpeech[1])
 posDict = {}
 for tag in partsOfSpeech:
     pos = tag[1]
@@ -106,17 +109,42 @@ def getMostFrequentWordInPOS(pos):
         posDict[pos][maxWord] = 0
     return maxWord
 # print(len(posDict.keys())) 40 parts of speech
+#Lottery system
+def getRandomWord(pos):
+    # print ("Starting lottery")
+    # print ("POS", pos)
+    numTotal = 0
+    localPOSList = posDict[pos]
+    # print ("Got here")
+    # print (localPOSList)
+    for tuple in localPOSList:
+        # print (localPOSList[tuple])
+        numTotal = numTotal + localPOSList[tuple]
+
+    # print ("Total size of lottery is", numTotal)
+    pick = randint(0, numTotal)
+    # print ("Pick is:", pick)
+    for tuple in localPOSList:
+        pick = pick - localPOSList[tuple]
+        if pick <= 0:
+            # print (pick)
+            # print ("Tuple", tuple)
+            return tuple
 
 
 corpus_location2='C:\\Users\\Jeff\\git\\LyricsYo\\songLyric'
 print(corpus_location)
 lyricCorpus = PlaintextCorpusReader(corpus_location2, '.*')
 words2 = WhitespaceTokenizer().tokenize(lyricCorpus.raw())
-partsOfSpeech = nltk.pos_tag(words2)
+partsOfSpeechForSong = nltk.pos_tag(words2)
 newLyrics = ""
-for w in partsOfSpeech:
-    nextWord = getMostFrequentWordInPOS(w[1])
+for w in partsOfSpeechForSong:
+    nextWord = getRandomWord(w[1])
     if nextWord == "t":
         print(w)
     newLyrics = newLyrics + " " + nextWord
 print (newLyrics)
+
+
+pickle.dump(posDict, open( "posDictPickle.p", "wb" ) )
+#To load posDict = pickle.load( open( "posDictPickle.p", "rb" ) )
