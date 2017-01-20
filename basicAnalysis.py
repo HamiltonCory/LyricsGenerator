@@ -8,6 +8,7 @@ import collections
 from numpy.core.defchararray import isalpha
 from nltk.tokenize import WhitespaceTokenizer
 from nltk import word_tokenize
+from nltk import ngrams
 
 
 corpus_location='C:\\Users\\Jeff\\git\\LyricsYo\\runDataset'
@@ -144,7 +145,16 @@ def split_and_keep(s, sep):
 
    return s.replace(sep, sep+p).split(p)
 
-
+#TODO Cache?
+def ngramSearch(input, size):
+    grams = ngrams(testCorpus.raw().lower().split(), size)
+    for gram in grams:
+        if (input[0] is gram[0]):
+            print ("Found")
+            print (gram)
+            return gram
+    #   None found
+    return "None"
 
 corpus_location2='C:\\Users\\Jeff\\git\\LyricsYo\\songLyric'
 print(corpus_location)
@@ -160,17 +170,18 @@ if "\n" in words:
 print (words)
 print ("printing array")
 print (words[0])
-for s in words:
-   print(split_and_keep(s, '\r\n'))
-for c in words:
-    print (c)
+# for s in words:
+#    print(split_and_keep(s, '\r\n'))
+# for c in words:
+#     print (c)
 for line in words:
-    print ("GOT HERE")
-    print (line)
     partOfSpeech = nltk.pos_tag(line.split())
     print (partOfSpeech)
     for w in partOfSpeech:
         print (w[0])
+        ngram = ngramSearch(w[0], len(partOfSpeech))
+        if ngram != "None":
+            nextWord = ngram
         nextWord = getRandomWord(w[1])
         # print (nextWord)
         if nextWord == "t":
