@@ -167,9 +167,9 @@ words = wordsString.split('\r\n')
 if "\n" in words:
     print ("There's a newline in variable the string")
 #Prints characters
-print (words)
-print ("printing array")
-print (words[0])
+# print (words)
+# print ("printing array")
+# print (words[0])
 # for s in words:
 #    print(split_and_keep(s, '\r\n'))
 # for c in words:
@@ -178,10 +178,11 @@ for line in words:
     partOfSpeech = nltk.pos_tag(line.split())
     print (partOfSpeech)
     for w in partOfSpeech:
-        print (w[0])
+        # print (w[0])
         ngram = ngramSearch(w[0], len(partOfSpeech))
-        if ngram != "None":
-            nextWord = ngram
+        # if ngram != "None":
+        #     nextWord = ngram
+        #     break
         nextWord = getRandomWord(w[1])
         # print (nextWord)
         if nextWord == "t":
