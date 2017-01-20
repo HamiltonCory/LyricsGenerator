@@ -114,7 +114,10 @@ def getRandomWord(pos):
     # print ("Starting lottery")
     # print ("POS", pos)
     numTotal = 0
-    localPOSList = posDict[pos]
+    # This catches any unseen parts of speech
+    localPOSList = posDict.get(pos, "TEMP")
+    if (localPOSList is 'TEMP'):
+        return "TEMP"
     # print ("Got here")
     # print (localPOSList)
     for tuple in localPOSList:
@@ -131,6 +134,17 @@ def getRandomWord(pos):
             # print ("Tuple", tuple)
             return tuple
 
+def split_and_keep(s, sep):
+   if not s: return [''] # consistent with string.split()
+
+   # Find replacement character that is not used in string
+   # i.e. just use the highest available character plus one
+   # Note: This fails if ord(max(s)) = 0x10FFFF (ValueError)
+   p=chr(ord(max(s))+1)
+
+   return s.replace(sep, sep+p).split(p)
+
+
 
 corpus_location2='C:\\Users\\Jeff\\git\\LyricsYo\\songLyric'
 print(corpus_location)
@@ -138,13 +152,40 @@ lyricCorpus = PlaintextCorpusReader(corpus_location2, '.*')
 words2 = WhitespaceTokenizer().tokenize(lyricCorpus.raw())
 partsOfSpeechForSong = nltk.pos_tag(words2)
 newLyrics = ""
-for w in partsOfSpeechForSong:
-    nextWord = getRandomWord(w[1])
-    if nextWord == "t":
-        print(w)
-    newLyrics = newLyrics + " " + nextWord
+wordsString = lyricCorpus.raw()
+words = wordsString.split('\r\n')
+if "\n" in words:
+    print ("There's a newline in variable the string")
+#Prints characters
+print (words)
+print ("printing array")
+print (words[0])
+for s in words:
+   print(split_and_keep(s, '\r\n'))
+for c in words:
+    print (c)
+for line in words:
+    print ("GOT HERE")
+    print (line)
+    partOfSpeech = nltk.pos_tag(line.split())
+    print (partOfSpeech)
+    for w in partOfSpeech:
+        print (w[0])
+        nextWord = getRandomWord(w[1])
+        # print (nextWord)
+        if nextWord == "t":
+            print(w)
+        newLyrics = newLyrics + " " + nextWord
+    newLyrics = newLyrics + "\r\n"
 print (newLyrics)
-
+# for w in partsOfSpeechForSong:
+#     nextWord = getRandomWord(w[1])
+#     # print (nextWord)
+#     # print (w[0])
+#     if nextWord == "t":
+#         print(w)
+#     newLyrics = newLyrics + " " + nextWord
+# print (newLyrics)
 
 pickle.dump(posDict, open( "posDictPickle.p", "wb" ) )
 #To load posDict = pickle.load( open( "posDictPickle.p", "rb" ) )
