@@ -154,7 +154,24 @@ def ngramSearch(input, size):
             print (gram)
             return gram
     #   None found
-    return "None"
+    return "none"
+
+def findRhyme(word):
+    for word2 in newLyrics:
+        if word in rhyme ( word2, 1 ):
+            print ("Ryme", word)
+            print (word2)
+            return word2
+    return "none"
+
+def rhyme(inp, level):
+     entries = nltk.corpus.cmudict.entries()
+     syllables = [(word, syl) for word, syl in entries if word == inp]
+     rhymes = []
+     for (word, syllable) in syllables:
+             rhymes += [word for word, pron in entries if pron[-level:] == syllable[-level:]]
+     return set(rhymes)
+
 
 corpus_location2='C:\\Users\\Jeff\\git\\LyricsYo\\songLyric'
 print(corpus_location)
@@ -176,18 +193,19 @@ if "\n" in words:
 #     print (c)
 for line in words:
     partOfSpeech = nltk.pos_tag(line.split())
-    print (partOfSpeech)
+    # print (partOfSpeech)
     for w in partOfSpeech:
         # print (w[0])
-        ngram = ngramSearch(w[0], len(partOfSpeech))
-        # if ngram != "None":
+        # ngram = ngramSearch(w[0], len(partOfSpeech))
+        # if ngram != "none":
         #     nextWord = ngram
         #     break
-        nextWord = getRandomWord(w[1])
-        # print (nextWord)
-        if nextWord == "t":
-            print(w)
-        newLyrics = newLyrics + " " + nextWord
+        else:
+            nextWord = getRandomWord(w[1])
+            # print (nextWord)
+            if nextWord == "t":
+                print(w)
+            newLyrics = newLyrics + " " + nextWord
     newLyrics = newLyrics + "\r\n"
 print (newLyrics)
 # for w in partsOfSpeechForSong:
