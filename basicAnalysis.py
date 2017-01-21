@@ -122,12 +122,13 @@ def getRandomWord(pos):
     # Start find rhyme, also tuple isn't really a tuple
     for element in localPOSList:
         print (element)
-        rhyme = findRhyme(element)
-        if rhyme != "none":
-            print ("Found Rhyme")
-            print (element)
-            print (rhyme)
-            return rhyme
+        # Rhyme runs incredibly slowly
+        # rhyme = findRhyme(element)
+        # if rhyme != "none":
+        #     print ("Found Rhyme")
+        #     print (element)
+        #     print (rhyme)
+        #     return rhyme
     print ("No rhyme found, using lottery method")
     # Start lottery for random pick
     for tuple in localPOSList:
