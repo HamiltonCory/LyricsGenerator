@@ -119,8 +119,17 @@ def getRandomWord(pos):
     localPOSList = posDict.get(pos, "TEMP")
     if (localPOSList is 'TEMP'):
         return "TEMP"
-    # print ("Got here")
-    # print (localPOSList)
+    # Start find rhyme, also tuple isn't really a tuple
+    for element in localPOSList:
+        print (element)
+        rhyme = findRhyme(element)
+        if rhyme != "none":
+            print ("Found Rhyme")
+            print (element)
+            print (rhyme)
+            return rhyme
+    print ("No rhyme found, using lottery method")
+    # Start lottery for random pick
     for tuple in localPOSList:
         # print (localPOSList[tuple])
         numTotal = numTotal + localPOSList[tuple]
@@ -157,10 +166,11 @@ def ngramSearch(input, size):
     return "none"
 
 def findRhyme(word):
-    for word2 in newLyrics:
+    splitLyrics = newLyrics.split()
+    for word2 in splitLyrics:
+        # print (word2)
+        # print (word)
         if word in rhyme ( word2, 1 ):
-            print ("Ryme", word)
-            print (word2)
             return word2
     return "none"
 
@@ -200,12 +210,12 @@ for line in words:
         # if ngram != "none":
         #     nextWord = ngram
         #     break
-        else:
-            nextWord = getRandomWord(w[1])
-            # print (nextWord)
-            if nextWord == "t":
-                print(w)
-            newLyrics = newLyrics + " " + nextWord
+        # else:
+        nextWord = getRandomWord(w[1])
+        print (nextWord)
+        if nextWord == "t":
+            print(w)
+        newLyrics = newLyrics + " " + nextWord
     newLyrics = newLyrics + "\r\n"
 print (newLyrics)
 # for w in partsOfSpeechForSong:
