@@ -1,4 +1,5 @@
 import nltk
+import pronouncing
 from random import randint
 from nltk.corpus import PlaintextCorpusReader
 from nltk import FreqDist
@@ -120,8 +121,8 @@ def getRandomWord(pos):
     if (localPOSList is 'TEMP'):
         return "TEMP"
     # Start find rhyme, also tuple isn't really a tuple
-    for element in localPOSList:
-        print (element)
+    # for element in localPOSList:
+        # print (element)
         # Rhyme runs incredibly slowly
         # rhyme = findRhyme(element)
         # if rhyme != "none":
@@ -207,13 +208,14 @@ for line in words:
     # print (partOfSpeech)
     for w in partOfSpeech:
         # print (w[0])
+        print (pronouncing.rhymes(w[0]))
         # ngram = ngramSearch(w[0], len(partOfSpeech))
         # if ngram != "none":
         #     nextWord = ngram
         #     break
         # else:
         nextWord = getRandomWord(w[1])
-        print (nextWord)
+        # print (nextWord)
         if nextWord == "t":
             print(w)
         newLyrics = newLyrics + " " + nextWord
