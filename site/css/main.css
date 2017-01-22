@@ -178,6 +178,13 @@ p.paragraph {
 	width: 260px;
 	display: inline-block;
 }
+.ctas-input-text {
+	outline: none;
+	border: none;
+	border-radius: 3px;
+	font-size: 15px;
+
+}
 .ctas-button {
 	display: inline-block;
 	margin: 0 0 0 10px;
@@ -185,6 +192,36 @@ p.paragraph {
 	line-height: 38px;
 	padding: 0 30px;
 	background: #fff;
+	border-radius: 3px;
+	font-size: 15px;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: .3px;
+	border: 1px solid white;
+	text-decoration: none;
+}
+.ctas-button:active {
+	display: inline-block;
+	margin: 0 0 0 10px;
+	height: 40px;
+	line-height: 38px;
+	padding: 0 30px;
+	background: #ccc;
+	border-radius: 3px;
+	font-size: 15px;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: .3px;
+	border: 1px solid white;
+	text-decoration: none;
+}
+.ctas-button:target {
+	display: inline-block;
+	margin: 0 0 0 10px;
+	height: 40px;
+	line-height: 38px;
+	padding: 0 30px;
+	background: #ccc;
 	border-radius: 3px;
 	font-size: 15px;
 	font-weight: 600;
